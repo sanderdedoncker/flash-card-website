@@ -8,8 +8,6 @@ load_dotenv(path.join(basedir, '.env'))
 
 # App
 TESTING = True
-DEBUG = True
-FLASK_ENV = 'development'
 SECRET_KEY = environ.get('SECRET_KEY')
 
 # Database
