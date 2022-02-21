@@ -33,7 +33,3 @@ def create_app(test_config=None):
 
     return app
 
-
-if __name__ == "__main__":
-    main_app = create_app()
-    main_app.run(debug=True, load_dotenv=True)
