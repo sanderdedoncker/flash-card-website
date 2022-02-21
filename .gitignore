@@ -20,6 +20,7 @@ docs/_build/
 .vscode
 __pycache__/
 instance/
+*.db
 
 
 # Coverage reports
