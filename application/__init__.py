@@ -1,10 +1,16 @@
 """
-Initialization and app factory for the Flask project
-See https://flask.palletsprojects.com/en/2.0.x/tutorial/factory/
-Also https://hackersandslackers.com/flask-application-factory/
+Initialization and app factory for the Flask project, see
+https://flask.palletsprojects.com/en/2.0.x/tutorial/factory/
+https://hackersandslackers.com/flask-application-factory/
+
+Explanation of blueprints and views see
+https://flask.palletsprojects.com/en/2.0.x/tutorial/views/
+https://hackersandslackers.com/flask-blueprints/
 
 Database also linked following the "Application factory" pattern
 https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/
+
+Sander Dedoncker, 2022
 """
 
 from os import path
@@ -28,7 +34,6 @@ def create_app(test_config=None):
         app.config.from_pyfile(path.join(config_dir, 'config.py'))
     else:
         # Load the test config if passed in
-        # TODO: from_mapping vs from_pyfile??
         app.config.from_mapping(test_config)
 
     # Initialize SQLAlchemy database on the created app
@@ -37,12 +42,11 @@ def create_app(test_config=None):
     # Push the context for the app
     with app.app_context():
 
-        db.create_all()
+        # Import and register homepage blueprint
+        from .home import views as home_views
+        app.register_blueprint(home_views.bp)
 
-        # a simple page that says hello
-        @app.route('/')
-        def hello():
-            return 'Hello, World!'
+        db.create_all()
 
         return app
 
