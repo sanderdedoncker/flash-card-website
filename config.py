@@ -8,6 +8,7 @@ load_dotenv(path.join(basedir, '.env'))
 
 # App
 TESTING = True
+EXPLAIN_TEMPLATE_LOADING = True
 SECRET_KEY = environ.get('SECRET_KEY')
 
 # Database
