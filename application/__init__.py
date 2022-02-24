@@ -46,6 +46,10 @@ def create_app(test_config=None):
         from .home import views as home_views
         app.register_blueprint(home_views.bp)
 
+        # Import and register authentication blueprint
+        from .auth import views as auth_views
+        app.register_blueprint(auth_views.bp)
+
         db.create_all()
 
         return app
