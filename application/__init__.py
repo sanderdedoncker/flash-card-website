@@ -17,6 +17,7 @@ from os import path
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
 
 
 db = SQLAlchemy()  # db set as global variable outside of the app -> makes library accessible anywhere
@@ -38,6 +39,9 @@ def create_app(test_config=None):
 
     # Initialize SQLAlchemy database on the created app
     db.init_app(app)
+
+    # Link the Flask-Bootstrap library to the created app
+    Bootstrap(app)
 
     # Push the context for the app
     with app.app_context():

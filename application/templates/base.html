@@ -1,9 +1,10 @@
-<!doctype html>
-<title>
-  {% block title %}
-  {% if title: %}}{{ title }}{% else: %}Flash Cards{% endif %}
-  {% endblock %}
-</title>
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+{% if title: %}}{{ title }}{% else: %}Flash Cards{% endif %}
+{% endblock %}
+
+{% block navbar %}
 <nav>
   <h1>Flash Cards</h1>
   <ul>
@@ -16,6 +17,9 @@
     {% endif %}
   </ul>
 </nav>
+{% endblock %}
+
+{% block content %}
 <section class="content">
   <header>
     {% block header %}
@@ -24,6 +28,7 @@
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
   {% endfor %}
-  {% block content %}
+  {% block app_content %}
   {% endblock %}
 </section>
+{% endblock %}
