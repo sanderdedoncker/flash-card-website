@@ -1,14 +1,18 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 
 {% block title %}
 Login - Under Construction
 {% endblock %}
 
-{% block header %}
-Login - Under Construction
-{% endblock %}
 
-{% block content %}
-Login - Under Construction
-<a href="{{ url_for('home.home') }}">Back to home page.</a>
+{% block app_content %}
+<div class="container">
+    <div class="row">
+    <h2>Welcome! Please log in below.</h2>
+        {{ wtf.quick_form(form=form, novalidate=True) }}
+        <span><a href="{{ url_for('home.home') }}">Back to home page.</a></span>
+    </div>
+</div>
 {% endblock %}
