@@ -1,24 +1,35 @@
-from . import db
+from application import db
+
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
 
 ## Models
-class User(db.Model):
+class User(UserMixin, db.Model):
     """User: contains data on website users."""
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
-    admin = db.Column(db.Boolean, nullable=False)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
 
     # User relates to Card via Score
     scores = relationship("Score", back_populates="user")
 
     # User relates to Card (one-to-many), being creator
     cards = relationship("Card", back_populates="user")
+
+    def set_password(self, password):
+        #  https://security.stackexchange.com/questions/110084/parameters-for-pbkdf2-for-password-hashing/110106#110106
+        # Werkzeug defaults seem to have built-in (adaptive?) number of iterations
+        self.password = generate_password_hash(password, method="pbkdf2:sha256", salt_length=16)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 
 class Card(db.Model):

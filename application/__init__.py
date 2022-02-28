@@ -17,11 +17,13 @@ from os import path
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 
 
-db = SQLAlchemy()  # db set as global variable outside of the app -> makes library accessible anywhere
+db = SQLAlchemy()  # db as variable outside of the app -> makes it accessible anywhere before app creation
 # TODO: configure SQLAlchemy database
+login = LoginManager()  # login as variable outside of app factory -> makes it accessible anywhere before app creation
 
 
 def create_app(test_config=None):
@@ -39,6 +41,9 @@ def create_app(test_config=None):
 
     # Initialize SQLAlchemy database on the created app
     db.init_app(app)
+
+    # Initialize Flask-Login login manager on the created app
+    login.init_app(app)
 
     # Link the Flask-Bootstrap library to the created app
     Bootstrap(app)
