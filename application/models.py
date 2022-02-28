@@ -12,27 +12,37 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
+    admin = db.Column(db.Boolean, nullable=False)
 
     # User relates to Card via Score
     scores = relationship("Score", back_populates="user")
+
+    # User relates to Card (one-to-many), being creator
+    cards = relationship("Card", back_populates="user")
 
 
 class Card(db.Model):
     """Card: contains data on the flash cards. For now, cards only support string content."""
     __tablename__ = "cards"
     id = db.Column(db.Integer, primary_key=True)
+    added_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
+    private = db.Column(db.Boolean, nullable=False, default=False)  # Default to public card
     front = db.Column(db.Text, nullable=False)  # Text type has unlimited length
     back = db.Column(db.Text, nullable=False)
 
     # Card relates to User via Score
     scores = relationship("Score", back_populates="card")
 
+    # Card relates to User (many-to-one) who is creator
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user = relationship("User", back_populates="cards")
+
 
 class Score(db.Model):
     """Score: contains data on the score a User has for a Card."""
     __tablename__ = "scores"
     id = db.Column(db.Integer, primary_key=True)
-    last_seen = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
+    last_seen_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
     score = db.Column(db.Integer, nullable=False)
 
     # Score is the many-to-many association between User and Card
