@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
-from .forms import AddCardForm
+from flask import Blueprint, render_template, redirect, url_for, flash, abort
+from .forms import AddCardForm, EditCardForm, DeleteCardForm
 from flask_login import current_user, login_required
 from application.models import User, Card
 from application import db, login
@@ -13,6 +13,8 @@ bp = Blueprint(name="cards", import_name=__name__, template_folder="templates", 
 @login_required
 @bp.route("/", methods=["GET"])
 def cards():
+    # TODO: Add detailed view of cards (where you can maybe edit and delete them)
+    # TODO: Checking card content safety
     all_user_cards = Card.query.filter_by(user_id=current_user.id).all()
     return render_template("cards.html", cards=all_user_cards)
 
@@ -36,12 +38,36 @@ def add_card():
 
 
 @login_required
-@bp.route("/edit/<int:card_id>", methods=["GET", "PUT"])
+@bp.route("/edit/<int:card_id>", methods=["GET", "POST"])
 def edit_card(card_id):
-    return f"Edit card {card_id} via form"
+    card = Card.query.get(card_id)
+    if card:
+        edit_card_form = EditCardForm(front=card.front, back=card.back)
+        if edit_card_form.validate_on_submit():
+            card.front = edit_card_form.front.data
+            card.back = edit_card_form.back.data
+            db.session.commit()
+            flash("Card edited successfully.")
+            return redirect(url_for("cards.cards"))
+        return render_template("edit_card.html", form=edit_card_form)
+    else:
+        return abort(404)
 
 
 @login_required
-@bp.route("/delete/<int:card_id>", methods=["GET", "DELETE"])
+@bp.route("/delete/<int:card_id>", methods=["GET", "POST"])
 def delete_card(card_id):
-    return f"Confirm deletion of card {card_id}"
+    # TODO: Make this nicer with a confirmation popup before accessing the link, instead of form there
+    # TODO: Accept "DELETE" requests?
+    card = Card.query.get(card_id)
+    if card:
+        delete_card_form = DeleteCardForm()
+        if delete_card_form.validate_on_submit():
+            db.session.delete(card)
+            db.session.commit()
+            flash("Card deleted successfully.")
+            return redirect(url_for("cards.cards"))
+        return render_template("delete_card.html", form=delete_card_form)
+    else:
+        return abort(404)
+

@@ -3,15 +3,15 @@
 
 
 {% block title %}
-Add Card
+Edit Card
 {% endblock %}
 
 
 {% block app_content %}
 <div class="container">
     <div class="row">
-    <h2>Fill in the form below to add a new card to your collection</h2>
-        {{ wtf.quick_form(form=form, novalidate=True, button_map={"submit": "primary"}) }}
+    <h2>Fill in the form below to edit the card.</h2>
+        {{ wtf.quick_form(form=form, novalidate=True, button_map={"submit": "warning"}) }}
         <span><a href="{{ url_for('cards.cards') }}" class="btn">Back to cards.</a></span>
     </div>
 </div>
