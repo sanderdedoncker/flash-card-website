@@ -31,6 +31,23 @@ Cards
                         </div>
                     </div>
                 </div>
+                <div class="panel-heading">
+                    {% set card_score, card_last_seen = "N/A", "N/A" %}
+                    {% for score in card.scores if score.user.id == current_user.id: %}
+                    {% set card_score, card_last_seen = card.score, card.last_seen.date() %}
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4>Score: {{ card_score }}</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Last seen on {{ card_last_seen }}</h4>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <a class="btn btn-warning" href="#">Reset Score</a>
+                        </div>
+                    </div>
+                </div>
                     <ul class="list-group">
                         <div class="list-group-item">
                             <strong>Front: </strong>{{ card.front }}
