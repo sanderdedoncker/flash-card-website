@@ -59,6 +59,17 @@ def create_app(test_config=None):
         from .auth import views as auth_views
         app.register_blueprint(auth_views.bp)
 
+        # Import and register cards blueprint
+        from .cards import views as card_views
+        app.register_blueprint(card_views.bp)
+
+        # TODO: User profile pages
+        # TODO: Card game - JS?
+        # TODO: Card overview/collections
+        # TODO: Admin pages
+        # TODO: API
+        # TODO: Nicer styling
+
         db.create_all()
 
         return app

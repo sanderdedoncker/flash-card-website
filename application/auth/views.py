@@ -16,13 +16,12 @@ def load_user(id):
 
 
 # # Views
-
 @bp.route("/register", methods=["GET", "POST"])
 def register():
     register_form = RegisterForm()
     if register_form.validate_on_submit():
         if User.query.filter_by(email=register_form.email.data).first():
-            flash("This email address is already registered.", category="error")
+            flash("This email address is already registered.", category="error")  # TODO: Categorize flash messages
             return redirect(url_for("auth.register"))
         new_user = User(
             username=register_form.username.data,
@@ -38,7 +37,7 @@ def register():
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated:  # TODO: Password reset
         flash("You are already logged in.")
         return redirect(url_for("home.home"))
     login_form = LoginForm()

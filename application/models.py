@@ -34,6 +34,8 @@ class User(UserMixin, db.Model):
 
 class Card(db.Model):
     """Card: contains data on the flash cards. For now, cards only support string content."""
+    # TODO: Markup of code and math
+    # TODO: Card tags
     __tablename__ = "cards"
     id = db.Column(db.Integer, primary_key=True)
     added_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.

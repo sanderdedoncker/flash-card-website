@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('cards.static', filename='card_styles.css') }}">
+{% endblock %}
+
+{% block title %}
+Cards
+{% endblock %}
+
+
+{% block app_content %}
+<div class="container">
+    <ul class="list-group">
+
+        {% for card in cards %}
+        <li class="list-group-item">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4>Card ID: {{ card.id }}</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Added on {{ card.added_on.date() }}</h4>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <a class="btn btn-warning" href="{{ url_for('cards.edit_card', card_id=card.id) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ url_for('cards.delete_card', card_id=card.id) }}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                    <ul class="list-group">
+                        <div class="list-group-item">
+                            <strong>Front: </strong>{{ card.front }}
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Back: </strong>{{ card.back }}
+                        </div>
+                    </ul>
+            </div>
+        </li>
+        {% endfor %}
+
+    </ul>
+</div>
+{% endblock %}

@@ -22,6 +22,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if not current_user.is_anonymous and current_user.is_authenticated %}
+                <li><a href="#">Learning</a></li>
+                <li><a href="{{ url_for('cards.cards') }}">Cards</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
                 {% else %}
