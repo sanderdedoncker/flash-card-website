@@ -2,20 +2,16 @@
 
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('cards.static', filename='styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('learn.static', filename='styles.css') }}">
 {% endblock %}
 
 {% block title %}
-Cards
+Learn
 {% endblock %}
 
 
 {% block app_content %}
 <div class="container">
-    <ul class="list-group">
-
-        {% for card in cards %}
-        <li class="list-group-item">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -57,10 +53,5 @@ Cards
                         </div>
                     </ul>
             </div>
-        </li>
-        {% endfor %}
-
-    </ul>
-    <a href="{{ url_for('cards.add_card') }}" class="btn btn-primary">Add new card</a>
 </div>
 {% endblock %}

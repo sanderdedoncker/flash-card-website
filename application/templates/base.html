@@ -3,7 +3,7 @@
 {% block title %}
 {% if title: %}}{{ title }}{% else: %}Flash Cards{% endif %}
 {% endblock %}
-
+<!--TODO Highlight current section in navbar-->
 {% block navbar %}
 <nav class="navbar navbar-default">
     <div class="container">
@@ -22,7 +22,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if not current_user.is_anonymous and current_user.is_authenticated %}
-                <li><a href="#">Learning</a></li>
+                <li><a href="{{ url_for('learn.learn') }}">Learn</a></li>
                 <li><a href="{{ url_for('cards.cards') }}">Cards</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
