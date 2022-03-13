@@ -70,6 +70,7 @@ def create_app(test_config=None):
         # TODO: User profile pages
         # TODO: Card game - JS?
         # TODO: Card overview/collections
+        # TODO: Public and private cards/collections
         # TODO: Admin pages
         # TODO: API
         # TODO: Nicer styling

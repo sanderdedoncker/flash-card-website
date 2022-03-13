@@ -13,10 +13,24 @@ bp = Blueprint(name="cards", import_name=__name__, template_folder="templates", 
 @login_required
 @bp.route("/", methods=["GET"])
 def cards():
-    # TODO: Add detailed view of cards (where you can maybe edit and delete them)
     # TODO: Checking card content safety
     all_user_cards = Card.query.filter_by(user_id=current_user.id).all()
     return render_template("cards.html", cards=all_user_cards)
+
+
+@login_required
+@bp.route("/<int:card_id>", methods=["GET"])
+def card(card_id):
+    # TODO: Maybe do edit and delete directly in this page
+    # TODO: Checking card content safety
+    card = Card.query.get(card_id)
+    if card:
+        if card.user.id == current_user.id:
+            return render_template("cards.html", cards=[card])
+        else:
+            return abort(403)
+    else:
+        return abort(404)
 
 
 @login_required
