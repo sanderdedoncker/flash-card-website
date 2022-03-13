@@ -9,10 +9,9 @@ Edit Card
 
 {% block app_content %}
 <div class="container">
-    <div class="row">
-    <h2>Fill in the form below to edit the card.</h2>
+    <div class="row col-xs-12">
+    <h4>Fill in the form below to edit the card.</h4>
         {{ wtf.quick_form(form=form, novalidate=True, button_map={"submit": "warning"}) }}
-        <span><a href="{{ url_for('cards.cards') }}" class="btn">Back to cards.</a></span>
     </div>
 </div>
 {% endblock %}

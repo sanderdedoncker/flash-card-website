@@ -52,7 +52,7 @@ def add_card():
 
 
 @login_required
-@bp.route("/edit/<int:card_id>", methods=["GET", "POST"])
+@bp.route("/<int:card_id>/edit", methods=["GET", "POST"])
 def edit_card(card_id):
     card = Card.query.get(card_id)
     if card:
@@ -69,7 +69,7 @@ def edit_card(card_id):
 
 
 @login_required
-@bp.route("/delete/<int:card_id>", methods=["GET", "POST"])
+@bp.route("/<int:card_id>/delete", methods=["GET", "POST"])
 def delete_card(card_id):
     # TODO: Make this nicer with a confirmation popup before accessing the link, instead of form there
     # TODO: Accept "DELETE" requests?
