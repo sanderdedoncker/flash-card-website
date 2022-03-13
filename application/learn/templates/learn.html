@@ -12,46 +12,70 @@ Learn
 
 {% block app_content %}
 <div class="container">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <h4>Card ID: {{ card.id }}</h4>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Added on {{ card.added_on.date() }}</h4>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <a class="btn btn-warning" href="{{ url_for('cards.edit_card', card_id=card.id) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ url_for('cards.delete_card', card_id=card.id) }}">Delete</a>
+<!--            <div class="panel panel-default">-->
+<!--                <div class="panel-heading">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-md-2">-->
+<!--                            <h4>Card ID: {{ card.id }}</h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                            <h4>Added on {{ card.added_on.date() }}</h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-4 text-right">-->
+<!--                            <a class="btn btn-warning" href="{{ url_for('cards.edit_card', card_id=card.id) }}">Edit</a>-->
+<!--                            <a class="btn btn-danger" href="{{ url_for('cards.delete_card', card_id=card.id) }}">Delete</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="panel-heading">-->
+<!--                    {% set card_score, card_last_seen = "N/A", "N/A" %}-->
+<!--                    {% for score in card.scores if score.user.id == current_user.id: %}-->
+<!--                    {% set card_score, card_last_seen = card.score, card.last_seen.date() %}-->
+<!--                    {% endfor %}-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-md-2">-->
+<!--                            <h4>Score: {{ card_score }}</h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                            <h4>Last seen on {{ card_last_seen }}</h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-4 text-right">-->
+<!--                            <a class="btn btn-warning" href="#">Reset Score</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                    <ul class="list-group">-->
+<!--                        <div class="list-group-item">-->
+<!--                            <strong>Front: </strong>{{ card.front }}-->
+<!--                        </div>-->
+<!--                        <div class="list-group-item">-->
+<!--                            <strong>Back: </strong>{{ card.back }}-->
+<!--                        </div>-->
+<!--                    </ul>-->
+<!--            </div>-->
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card" >
+                <div class="front">
+                    <div>
+                        <div class="card-header"> {{ card.id }} <span class="card-subheader">(L{{ card.id }})</span> </div>
+                        <div class="card-body"><p>{{ card.front }}</p></div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div>
+                        <div class="card-header"> {{ card.id }} <span class="card-subheader">(L{{ card.id }})</span></div>
+                        <div class="card-body">
+                            <p>{{ card.front }}</p>
+                            <hr>
+                            <p>{{ card.back }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="panel-heading">
-                    {% set card_score, card_last_seen = "N/A", "N/A" %}
-                    {% for score in card.scores if score.user.id == current_user.id: %}
-                    {% set card_score, card_last_seen = card.score, card.last_seen.date() %}
-                    {% endfor %}
-                    <div class="row">
-                        <div class="col-md-2">
-                            <h4>Score: {{ card_score }}</h4>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Last seen on {{ card_last_seen }}</h4>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <a class="btn btn-warning" href="#">Reset Score</a>
-                        </div>
-                    </div>
-                </div>
-                    <ul class="list-group">
-                        <div class="list-group-item">
-                            <strong>Front: </strong>{{ card.front }}
-                        </div>
-                        <div class="list-group-item">
-                            <strong>Back: </strong>{{ card.back }}
-                        </div>
-                    </ul>
             </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
 </div>
 {% endblock %}
