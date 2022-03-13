@@ -20,13 +20,13 @@ def cards():
 
 @login_required
 @bp.route("/<int:card_id>", methods=["GET"])
-def card(card_id):
+def card_detail(card_id):
     # TODO: Maybe do edit and delete directly in this page
     # TODO: Checking card content safety
     card = Card.query.get(card_id)
     if card:
         if card.user.id == current_user.id:
-            return render_template("cards.html", cards=[card])
+            return render_template("card_detail.html", card=card)
         else:
             return abort(403)
     else:

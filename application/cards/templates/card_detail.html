@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('cards.static', filename='styles.css') }}">
+{% endblock %}
+
+{% block title %}
+Cards
+{% endblock %}
+
+{% block app_content %}
+<div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Card {{ card.id }}
+                        </div>
+                        <div class="col-xs-6">
+                            Added {{ card.added_on.date() }}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    {% set card_score, card_last_seen = "N/A", "N/A" %}
+                    {% for score in card.scores if score.user.id == current_user.id: %}
+                    {% set card_score, card_last_seen = card.score, card.last_seen.date() %}
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Level {{ card_score }}
+                        </div>
+                        <div class="col-xs-6">
+                            Seen {{ card_last_seen }}
+                        </div>
+                    </div>
+                </div>
+                    <ul class="list-group">
+                        <div class="list-group-item">
+                            <strong>Front: </strong>{{ card.front }}
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Back: </strong>{{ card.back }}
+                        </div>
+                    </ul>
+            </div>
+                        <div class="row text-center">
+                            <div class="col-xs-4">
+                                <a class="btn btn-warning" href="{{ url_for('cards.edit_card', card_id=card.id) }}">Edit</a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="btn btn-warning" href="#">Reset Score</a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a class="btn btn-danger" href="{{ url_for('cards.delete_card', card_id=card.id) }}">Delete</a>
+                            </div>
+
+
+                        </div>
+</div>
+{% endblock %}

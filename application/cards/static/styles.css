@@ -10,3 +10,22 @@
 .row {
   /*border: 1px solid #ddd;*/
 }
+
+.panel-heading {
+    font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.panel-subheading {
+    font-weight: normal;
+    float: right;
+}
+.panel-body-short {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+hr{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

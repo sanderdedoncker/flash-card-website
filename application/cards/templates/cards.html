@@ -12,55 +12,40 @@ Cards
 
 {% block app_content %}
 <div class="container">
-    <ul class="list-group">
+<!--    <ul class="list-group">-->
 
         {% for card in cards %}
-        <li class="list-group-item">
+<!--        <li class="list-group-item">-->
+    <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-2">
-                            <h4>Card ID: {{ card.id }}</h4>
+                        <div class="col-md-2 col-xs-5">
+                            No. {{ card.id }} <span class="panel-subheading">({{ card.added_on.date() }})</span>
                         </div>
-                        <div class="col-md-6">
-                            <h4>Added on {{ card.added_on.date() }}</h4>
+                        <div class="col-md-2 col-xs-5">
+                            Lvl. {{ card.id }} <span class="panel-subheading">({{ card.added_on.date() }})</span>
                         </div>
-                        <div class="col-md-4 text-right">
-                            <a class="btn btn-warning" href="{{ url_for('cards.edit_card', card_id=card.id) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ url_for('cards.delete_card', card_id=card.id) }}">Delete</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-heading">
-                    {% set card_score, card_last_seen = "N/A", "N/A" %}
-                    {% for score in card.scores if score.user.id == current_user.id: %}
-                    {% set card_score, card_last_seen = card.score, card.last_seen.date() %}
-                    {% endfor %}
-                    <div class="row">
-                        <div class="col-md-2">
-                            <h4>Score: {{ card_score }}</h4>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Last seen on {{ card_last_seen }}</h4>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <a class="btn btn-warning" href="#">Reset Score</a>
+                        <div class="col-md-8 col-xs-2 text-right">
+                            <a class="btn btn-xs btn-warning glyphicon glyphicon-cog" href="{{ url_for('cards.card_detail', card_id=card.id) }}"></a>
                         </div>
                     </div>
                 </div>
-                    <ul class="list-group">
-                        <div class="list-group-item">
+<!--                    <ul class="list-group">-->
+                        <div class="panel-body panel-body-short">
                             <strong>Front: </strong>{{ card.front }}
                         </div>
-                        <div class="list-group-item">
+                        <hr>
+                        <div class="panel-body panel-body-short">
                             <strong>Back: </strong>{{ card.back }}
                         </div>
-                    </ul>
+<!--                    </ul>-->
             </div>
-        </li>
+    </div>
+<!--        </li>-->
         {% endfor %}
 
-    </ul>
+<!--    </ul>-->
     <a href="{{ url_for('cards.add_card') }}" class="btn btn-primary">Add new card</a>
 </div>
 {% endblock %}
