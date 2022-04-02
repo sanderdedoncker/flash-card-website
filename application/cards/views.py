@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
-from .forms import AddCardForm, EditCardForm, DeleteCardForm
+from .forms import AddCardForm, EditCardForm, ResetCardForm, DeleteCardForm
 from flask_login import current_user, login_required
-from application.models import User, Card
+from application.models import User, Card, Score
 from application import db, login
 from datetime import datetime
 
@@ -10,12 +10,17 @@ from datetime import datetime
 bp = Blueprint(name="cards", import_name=__name__, template_folder="templates", static_folder="static", url_prefix="/cards")
 
 
+# # Views
 @login_required
 @bp.route("/", methods=["GET"])
 def cards():
     # TODO: Checking card content safety
-    all_user_cards = Card.query.filter_by(user_id=current_user.id).all()
-    return render_template("cards.html", cards=all_user_cards)
+    all_user_cards_scores = db.session.query(Card, Score).\
+                            outerjoin(Score).\
+                            filter(Card.user_id == current_user.id).\
+                            filter((Score.user_id == current_user.id) | (Score.user_id == None)).\
+                            all()
+    return render_template("cards.html", cards_scores=all_user_cards_scores)
 
 
 @login_required
@@ -24,9 +29,10 @@ def card_detail(card_id):
     # TODO: Maybe do edit and delete directly in this page
     # TODO: Checking card content safety
     card = Card.query.get(card_id)
+    score = Score.query.filter_by(user_id=current_user.id, card_id=card.id).one_or_none()
     if card:
         if card.user.id == current_user.id:
-            return render_template("card_detail.html", card=card)
+            return render_template("card_detail.html", card=card, score=score)
         else:
             return abort(403)
     else:
@@ -69,6 +75,25 @@ def edit_card(card_id):
 
 
 @login_required
+@bp.route("/<int:card_id>/reset", methods=["GET", "POST"])
+def reset_card(card_id):
+    card = Card.query.get(card_id)
+    score = Score.query.filter_by(user_id=current_user.id, card_id=card.id).one_or_none()
+    if not score:
+        return redirect(url_for("cards.card_detail", card_id=card_id))
+    if card:
+        reset_card_form = ResetCardForm()
+        if reset_card_form.validate_on_submit():
+            db.session.delete(score)
+            db.session.commit()
+            flash("Score reset successfully.")
+            return redirect(url_for("cards.cards"))
+        return render_template("reset_card.html", form=reset_card_form)
+    else:
+        return abort(404)
+
+
+@login_required
 @bp.route("/<int:card_id>/delete", methods=["GET", "POST"])
 def delete_card(card_id):
     # TODO: Make this nicer with a confirmation popup before accessing the link, instead of form there
@@ -84,4 +109,3 @@ def delete_card(card_id):
         return render_template("delete_card.html", form=delete_card_form)
     else:
         return abort(404)
-

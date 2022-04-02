@@ -15,9 +15,9 @@ Learn
         <div class="col-md-3"></div>
         <div class="col-md-6">
                 <div class="btn-group btn-group-justified">
-                    <a class="btn btn-lg btn-success glyphicon glyphicon-ok" href="{{ url_for('cards.card_detail', card_id=card.id) }}"></a>
+                    <a class="btn btn-lg btn-success glyphicon glyphicon-ok" href="{{ url_for('learn.level_up', card_id=card.id) }}"></a>
                     <a class="btn btn-lg btn-warning glyphicon glyphicon-cog" href="{{ url_for('cards.card_detail', card_id=card.id) }}"></a>
-                    <a class="btn btn-lg btn-danger glyphicon glyphicon-remove" href="{{ url_for('cards.card_detail', card_id=card.id) }}"></a>
+                    <a class="btn btn-lg btn-danger glyphicon glyphicon-remove" href="{{ url_for('learn.level_down', card_id=card.id) }}"></a>
                 </div>
         </div>
         <div class="col-md-3"></div>
@@ -28,13 +28,13 @@ Learn
             <div class="card" >
                 <div class="front">
                     <div>
-                        <div class="card-header"> {{ card.id }} <span class="card-subheader">(L{{ card.id }})</span> </div>
+                        <div class="card-header"> {{ card.id }} <span class="card-subheader">(L{{ score.score }})</span> </div>
                         <div class="card-body"><p>{{ card.front }}</p></div>
                     </div>
                 </div>
                 <div class="back">
                     <div>
-                        <div class="card-header"> {{ card.id }} <span class="card-subheader">(L{{ card.id }})</span></div>
+                        <div class="card-header"> {{ card.id }} <span class="card-subheader">(L{{ score.score }})</span></div>
                         <div class="card-body">
                             <p>{{ card.front }}</p>
                             <hr>

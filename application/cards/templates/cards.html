@@ -9,42 +9,43 @@
 Cards
 {% endblock %}
 
-
 {% block app_content %}
 <div class="container">
 <!--    <ul class="list-group">-->
-
-        {% for card in cards %}
+    {% for card, score in cards_scores %}
 <!--        <li class="list-group-item">-->
     <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-2 col-xs-5">
-                            No. {{ card.id }} <span class="panel-subheading">({{ card.added_on.date() }})</span>
-                        </div>
-                        <div class="col-md-2 col-xs-5">
-                            Lvl. {{ card.id }} <span class="panel-subheading">({{ card.added_on.date() }})</span>
-                        </div>
-                        <div class="col-md-8 col-xs-2 text-right">
-                            <a class="btn btn-xs btn-warning glyphicon glyphicon-cog" href="{{ url_for('cards.card_detail', card_id=card.id) }}"></a>
-                        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-2 col-xs-5">
+                        No. {{ card.id }} <span class="panel-subheading">({{ card.added_on.date() }})</span>
+                    </div>
+                    <div class="col-md-2 col-xs-5">
+                        {% if score: %}
+                        Lvl. {{ score.score  }} <span class="panel-subheading">({{ score.last_seen_on.date() }})</span>
+                        {% else: %}
+                        (Unseen)
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8 col-xs-2 text-right">
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-cog" href="{{ url_for('cards.card_detail', card_id=card.id) }}"></a>
                     </div>
                 </div>
-<!--                    <ul class="list-group">-->
-                        <div class="panel-body panel-body-short">
-                            <strong>Front: </strong>{{ card.front }}
-                        </div>
-                        <hr>
-                        <div class="panel-body panel-body-short">
-                            <strong>Back: </strong>{{ card.back }}
-                        </div>
-<!--                    </ul>-->
             </div>
+<!--                    <ul class="list-group">-->
+            <div class="panel-body panel-body-short">
+                <strong>Front: </strong>{{ card.front }}
+            </div>
+            <hr>
+            <div class="panel-body panel-body-short">
+                <strong>Back: </strong>{{ card.back }}
+            </div>
+<!--                    </ul>-->
+        </div>
     </div>
 <!--        </li>-->
         {% endfor %}
-
 <!--    </ul>-->
     <a href="{{ url_for('cards.add_card') }}" class="btn btn-primary">Add new card</a>
 </div>

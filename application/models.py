@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 
 
-## Models
+# # Models
 class User(UserMixin, db.Model):
     """User: contains data on website users."""
     __tablename__ = "users"
@@ -35,7 +35,8 @@ class User(UserMixin, db.Model):
 class Card(db.Model):
     """Card: contains data on the flash cards. For now, cards only support string content."""
     # TODO: Markup of code and math
-    # TODO: Card tags
+    # TODO: Card tags or collections
+    # TODO: Delete on deletion of user
     __tablename__ = "cards"
     id = db.Column(db.Integer, primary_key=True)
     added_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
@@ -52,11 +53,14 @@ class Card(db.Model):
 
 
 class Score(db.Model):
+    # TODO: refactor -> Level?
+    # TODO: review many-to-many relationships in SQLAlchemy
+    # TODO: Delete on deletion of card or user
     """Score: contains data on the score a User has for a Card."""
     __tablename__ = "scores"
     id = db.Column(db.Integer, primary_key=True)
-    last_seen_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
-    score = db.Column(db.Integer, nullable=False)
+    last_seen_on = db.Column(db.DateTime, nullable=False, default=datetime.now())  # Default to score creation time.
+    score = db.Column(db.Integer, nullable=False, default=0)
 
     # Score is the many-to-many association between User and Card
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -64,6 +68,9 @@ class Score(db.Model):
 
     card_id = db.Column(db.Integer, db.ForeignKey("cards.id"))
     card = relationship("Card", back_populates="scores")
+
+# TODO: Card collections?
+# TODO: Score history?
 
 
 

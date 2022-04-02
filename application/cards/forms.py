@@ -17,3 +17,7 @@ class EditCardForm(FlaskForm):
 
 class DeleteCardForm(FlaskForm):
     confirm_delete = SubmitField(label="Confirm deletion")
+
+
+class ResetCardForm(FlaskForm):
+    confirm_reset = SubmitField(label="Confirm reset")

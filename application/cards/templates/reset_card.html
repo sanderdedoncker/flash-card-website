@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}
+Reset score
+{% endblock %}
+
+
+{% block app_content %}
+<div class="container">
+    <div class="row col-xs-12">
+    <h4>Do you really want to reset your score for this card?</h4>
+        {{ wtf.quick_form(form=form, novalidate=True, button_map={"confirm_reset": "danger"}) }}
+    </div>
+</div>
+{% endblock %}
