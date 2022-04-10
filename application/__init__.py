@@ -75,7 +75,5 @@ def create_app(test_config=None):
         # TODO: API
         # TODO: Nicer styling
 
-        # db.create_all()
-
         return app
 
