@@ -18,10 +18,10 @@ class User(UserMixin, db.Model):
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
     # User relates to Card via Score
-    scores = relationship("Score", back_populates="user")
+    scores = relationship("Score", back_populates="user", cascade="delete, all")
 
     # User relates to Card (one-to-many), being creator
-    cards = relationship("Card", back_populates="user")
+    cards = relationship("Card", back_populates="user", cascade="delete, all")
 
     def set_password(self, password):
         #  https://security.stackexchange.com/questions/110084/parameters-for-pbkdf2-for-password-hashing/110106#110106
@@ -36,7 +36,6 @@ class Card(db.Model):
     """Card: contains data on the flash cards. For now, cards only support string content."""
     # TODO: Markup of code and math
     # TODO: Card tags or collections
-    # TODO: Delete on deletion of user
     __tablename__ = "cards"
     id = db.Column(db.Integer, primary_key=True)
     added_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
@@ -45,7 +44,7 @@ class Card(db.Model):
     back = db.Column(db.Text, nullable=False)
 
     # Card relates to User via Score
-    scores = relationship("Score", back_populates="card")
+    scores = relationship("Score", back_populates="card", cascade="delete, all")
 
     # Card relates to User (many-to-one) who is creator
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -54,9 +53,7 @@ class Card(db.Model):
 
 class Score(db.Model):
     # TODO: refactor -> Level?
-    # TODO: review many-to-many relationships in SQLAlchemy
-    # TODO: Delete on deletion of card or user
-    """Score: contains data on the score a User has for a Card."""
+    """Score: contains data on the score a User has for a Card. Follows the SQLAlchemy 'Association Object' pattern."""
     __tablename__ = "scores"
     id = db.Column(db.Integer, primary_key=True)
     last_seen_on = db.Column(db.DateTime, nullable=False, default=datetime.now())  # Default to score creation time.
