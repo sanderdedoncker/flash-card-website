@@ -16,5 +16,6 @@ SECRET_KEY = environ.get('SECRET_KEY')
 SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL').replace(
         'postgres://', 'postgresql://') \
     if environ.get('FLASK_ENV') == "production" else environ.get('DEV_DATABASE_URI')
+print(SQLALCHEMY_DATABASE_URI)
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = False if environ.get('FLASK_ENV') == "production" else True
