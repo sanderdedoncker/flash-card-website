@@ -3,8 +3,79 @@
 
 {% block app_content %}
 <div class="container">
-    <div class="row">
-        Check out this amazing content!
+    <div class="page-header">
+        <h2>Welcome!</h2>
+    </div>
+    <div>
+        <p>
+            Hello world! Thank you for visiting this little website. It is a small-scale-but-fully-featured project that I am building using Flask,
+            Bootstrap, and other tools in the Python web development stack. Its main purpose is to be a living document of
+            my explorations in the world of web dev, an exercise to consolidate what I've been learning.
+        </p>
+        <p>
+            While the creation of this website is supposed to be a learning project in and of itself, the finished app
+            can hopefully also be useful as a learning tool. It will allow the website users to create their own
+            personal flash card collection and interactively learn its contents wherever they are. The only thing needed
+            is an internet connection and an up-to-date browser.
+        </p>
+    </div>
+       <div class="page-header">
+        <h2>How to use it?</h2>
+    </div>
+    <div>
+        <p>Usage of the app is very simple:</p>
+        <ol>
+            <li>
+                Start by registering yourself as a user <a href="{{ url_for('auth.register') }}">here</a> and log into the app.
+            </li>
+            <li>
+                Under the 'Cards' tab, you can create and manage your personal card collection. Add a few cards there via the
+                interactive web form.
+            </li>
+            <li>
+                The 'Learn' tab allows you to study the contents of the flash cards. You will be presented
+                with a random card from your collection, for which you then indicate if you know it or not by clicking
+                the check or cross buttons. You can flip the card by tapping it.
+            </li>
+            <li>
+                The app keeps track of which cards you have marked as known or unknown, and increases or decreases their
+                level accordingly. Higher-level cards will be presented for review after longer time intervals, to
+                increase the learning difficulty.
+            </li>
+            <li>
+                Under your 'Profile' tab, you can manage your account and obtain some statistics of your learning
+                performance.
+            </li>
+        </ol>
+    </div>
+    <div class="page-header">
+        <h2>Future developments</h2>
+    </div>
+    <div>
+        <p>The following features (a.o.) are being developed at the time of writing (11/04/2022)</p>
+        <ul>
+            <li>
+                Functionality of the 'Profile' page - currently it is not fully dynamic.
+            </li>
+            <li>
+                Search, filter and pagination capability for the card collection.
+            </li>
+            <li>
+                Organizing cards into different themed collections.
+            </li>
+            <li>
+                Extend card content beyond simple text (e.g. formatting, representing math or code)
+            </li>
+            <li>
+                Ability to manage card collections (e.g. add in bulk) via a REST API.
+            </li>
+            <li>
+                Sharing cards across users.
+            </li>
+            <li>
+                <em>... Your suggestion here ...</em>
+            </li>
+        </ul>
     </div>
 </div>
 {% endblock %}
