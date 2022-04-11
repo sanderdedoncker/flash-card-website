@@ -67,8 +67,11 @@ def create_app(test_config=None):
         from .learn import views as learn_views
         app.register_blueprint(learn_views.bp)
 
+        # Import and register user blueprint
+        from .user import views as user_views
+        app.register_blueprint(user_views.bp)
+
         # TODO: User profile pages
-        # TODO: Card game - JS?
         # TODO: Card overview/collections
         # TODO: Public and private cards/collections
         # TODO: Admin pages

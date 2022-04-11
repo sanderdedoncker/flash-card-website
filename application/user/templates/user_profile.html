@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<!--<link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css') }}">-->
+{% endblock %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block app_content %}
+<div class="container">
+<!--    <div class="page-header"><h2>User Info</h2></div>-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-3 col-xs-5">-->
+<!--            <img class="center-block img-responsive" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png">-->
+<!--        </div>-->
+<!--        <div class="col-md-5 col-xs-7">-->
+<!--            <div class="panel panel-heading">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-xs-6">-->
+<!--                        <span>User:</span>-->
+<!--                    </div>-->
+<!--                    <div class="col-xs-6">-->
+<!--                        <span>{{ user.username }}</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-xs-6">-->
+<!--                        <span>Email:</span>-->
+<!--                    </div>-->
+<!--                    <div class="col-xs-6">-->
+<!--                        <span>{{ user.email }}</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-xs-6">-->
+<!--                        <span>Active since:</span>-->
+<!--                    </div>-->
+<!--                    <div class="col-xs-6">-->
+<!--                        <span>{{ user.created_on }}</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row text-center panel">-->
+<!--                <div class="col-xs-12">-->
+<!--                    <a class="btn btn-warning" href="{{ url_for('user.profile') }}">Edit</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="page-header"><h3>Account & Security</h3></div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="panel panel-heading">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <span>User:</span>
+                    </div>
+                    <div class="col-xs-6">
+                        <span>{{ user.username }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <span>Email:</span>
+                    </div>
+                    <div class="col-xs-6">
+                        <span>{{ user.email }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <span>Active since:</span>
+                    </div>
+                    <div class="col-xs-6">
+                        <span>{{ user.created_on }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row panel text-center">
+                <div class="col-xs-3">
+                    <a class="btn btn-warning" href="{{ url_for('user.profile') }}">Edit Info</a>
+                </div>
+                <div class="col-xs-6">
+                    <a class="btn btn-warning" href="{{ url_for('user.profile') }}">Reset Password</a>
+                </div>
+                <div class="col-xs-3">
+                    <a class="btn btn-danger" href="{{ url_for('user.profile') }}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-header"><h3>Card Stats</h3></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                    <div class="col-xs-1">
+                        Level
+                    </div>
+                    <div class="col-xs-11 text-center">
+                        Cards reviewed - to review
+                    </div>
+                </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-1">
+                        1
+                    </div>
+                    <div class="col-xs-11 text-center">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: 40%; min-width: 1em;">100</div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 40%; min-width: 2em;">100</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-1">
+                        2
+                    </div>
+                    <div class="col-xs-11 text-center">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: 40%">100</div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 40%">100</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
