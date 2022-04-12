@@ -9,31 +9,31 @@
     <div>
         <p>
             Hello world! Thank you for visiting this little website. It is a small-scale-but-fully-featured project that I am building using Flask,
-            Bootstrap, and other tools in the Python web development stack. Its main purpose is to be a living document of
-            my explorations in the world of web dev, an exercise to consolidate what I've been learning.
+            Bootstrap, and other tools in the Python web development stack. Its main purpose is to be a living document,
+            an exercise to consolidate what I've been learning about web dev.
         </p>
         <p>
             While the creation of this website is supposed to be a learning project in and of itself, the finished app
-            can hopefully also be useful as a learning tool. It will allow the website users to create their own
+            will hopefully also have some use as a learning tool. It will allow website users to create their own
             personal flash card collection and interactively learn its contents wherever they are. The only thing needed
             is an internet connection and an up-to-date browser.
         </p>
     </div>
        <div class="page-header">
-        <h2>How to use it?</h2>
+        <h2>How to use?</h2>
     </div>
     <div>
         <p>Usage of the app is very simple:</p>
         <ol>
             <li>
-                Start by registering yourself as a user <a href="{{ url_for('auth.register') }}">here</a> and log into the app.
+                Start by registering yourself as a user <a href="{{ url_for('auth.register') }}">here</a> and then log into the app.
             </li>
             <li>
-                Under the 'Cards' tab, you can create and manage your personal card collection. Add a few cards there via the
+                Under the <a href="{{ url_for('cards.cards') }}">Cards</a> tab, you can create and manage your personal card collection. Add a few cards there via the
                 interactive web form.
             </li>
             <li>
-                The 'Learn' tab allows you to study the contents of the flash cards. You will be presented
+                The <a href="{{ url_for('learn.learn') }}">Learn</a> tab allows you to study the contents of the flash cards. You will be presented
                 with a random card from your collection, for which you then indicate if you know it or not by clicking
                 the check or cross buttons. You can flip the card by tapping it.
             </li>
@@ -43,7 +43,7 @@
                 increase the learning difficulty.
             </li>
             <li>
-                Under your 'Profile' tab, you can manage your account and obtain some statistics of your learning
+                On your <a href="{{ url_for('user.profile') }}">Profile</a> page, you can manage your account and obtain some statistics of your learning
                 performance.
             </li>
         </ol>
