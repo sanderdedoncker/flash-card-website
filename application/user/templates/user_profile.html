@@ -2,7 +2,7 @@
 
 {% block styles %}
 {{ super() }}
-<!--<link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css') }}">-->
+<link rel="stylesheet" href="{{ url_for('user.static', filename='styles.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -11,45 +11,6 @@ Profile
 
 {% block app_content %}
 <div class="container">
-<!--    <div class="page-header"><h2>User Info</h2></div>-->
-<!--    <div class="row">-->
-<!--        <div class="col-md-3 col-xs-5">-->
-<!--            <img class="center-block img-responsive" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png">-->
-<!--        </div>-->
-<!--        <div class="col-md-5 col-xs-7">-->
-<!--            <div class="panel panel-heading">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-6">-->
-<!--                        <span>User:</span>-->
-<!--                    </div>-->
-<!--                    <div class="col-xs-6">-->
-<!--                        <span>{{ user.username }}</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-6">-->
-<!--                        <span>Email:</span>-->
-<!--                    </div>-->
-<!--                    <div class="col-xs-6">-->
-<!--                        <span>{{ user.email }}</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-6">-->
-<!--                        <span>Active since:</span>-->
-<!--                    </div>-->
-<!--                    <div class="col-xs-6">-->
-<!--                        <span>{{ user.created_on }}</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="row text-center panel">-->
-<!--                <div class="col-xs-12">-->
-<!--                    <a class="btn btn-warning" href="{{ url_for('user.profile') }}">Edit</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
     <div class="page-header"><h3>Account & Security</h3></div>
     <div class="row">
         <div class="col-md-6 col-xs-12">
@@ -93,14 +54,30 @@ Profile
         </div>
     </div>
     <div class="page-header"><h3>Card Stats</h3></div>
+    {% if total == 0: %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                    <div class="col-xs-12 text-center">
+                        You don't have any cards yet!
+                    </div>
+                </div>
+        </div>
+    </div>
+    {% else: %}
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="row">
                     <div class="col-xs-1">
-                        Level
+                        <span class="font-weight-bold">Lvl. </span>
                     </div>
                     <div class="col-xs-11 text-center">
-                        Cards reviewed - to review
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: 50%">
+                                Reviewed </div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 50%">
+                                Reviewable</div>
+                        </div>
                     </div>
                 </div>
         </div>
@@ -108,30 +85,50 @@ Profile
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-xs-1">
-                        1
+                        N/A
                     </div>
                     <div class="col-xs-11 text-center">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: 40%; min-width: 1em;">100</div>
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 40%; min-width: 2em;">100</div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{ unseen/total*100 }}%">
+                                {{ unseen }}</div>
                         </div>
                     </div>
                 </div>
             </li>
+            {% for score, stat in score_stats.items(): %}
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-xs-1">
-                        2
+                        {{ score }}
                     </div>
                     <div class="col-xs-11 text-center">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: 40%">100</div>
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 40%">100</div>
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ stat['reviewed']/total*100 }}%">
+                                {{ stat['reviewed'] }}</div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{ stat['reviewable']/total*100 }}%">
+                                {{ stat['reviewable'] }}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-1">
+                        Tot.
+                    </div>
+                    <div class="col-xs-11 text-center">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ total_stat['reviewed']/total*100 }}%">
+                                {{ total_stat['reviewed'] }}</div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: {{ total_stat['reviewable']/total*100 }}%">
+                                {{ total_stat['reviewable'] }}</div>
                         </div>
                     </div>
                 </div>
             </li>
         </ul>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
