@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
-from flask_login import current_user, login_required
+from flask_login import current_user, login_required, logout_user
 from application.models import User, Card, Score
 from application.learn.rules import is_reviewable
+from .forms import EditUserForm, ResetPasswordForm, DeleteUserForm
 from application import db, login
 from datetime import datetime
 
@@ -38,4 +39,45 @@ def profile():
 
     return render_template("user_profile.html", user=current_user, unseen=unseen, total=total,
                            score_stats=score_stats, total_stat=total_stat)
+
+
+@bp.route("/edit", methods=["GET", "POST"])
+@login_required
+def edit_user():
+    edit_user_form = EditUserForm(username=current_user.username, email=current_user.email)
+    if edit_user_form.validate_on_submit():
+        current_user.username = edit_user_form.username.data
+        current_user.email = edit_user_form.email.data
+        db.session.commit()
+        flash("User edited successfully.")
+        return redirect(url_for("user.profile"))
+    return render_template("edit_user.html", form=edit_user_form)
+
+
+@bp.route("/reset_password", methods=["GET", "POST"])
+@login_required
+def reset_password():
+    # TODO: Password reset via email
+    reset_password_form = ResetPasswordForm()
+    if reset_password_form.validate_on_submit():
+        current_user.set_password(reset_password_form.password.data)
+        db.session.commit()
+        flash("Password changed successfully.")
+        return redirect(url_for("user.profile"))
+    return render_template("reset_password.html", form=reset_password_form)
+
+
+@bp.route("/delete", methods=["GET", "POST"])
+@login_required
+def delete_user():
+    # TODO: Make this nicer with a confirmation popup before accessing the link, instead of form there
+    # TODO: Accept "DELETE" requests?
+    delete_user_form = DeleteUserForm()
+    if delete_user_form.validate_on_submit():
+        db.session.delete(current_user)
+        db.session.commit()
+        logout_user()
+        flash("User deleted successfully.")
+        return redirect(url_for("home.home"))
+    return render_template("delete_user.html", form=delete_user_form)
 

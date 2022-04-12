@@ -18,6 +18,7 @@ def load_user(id):
 # # Views
 @bp.route("/register", methods=["GET", "POST"])
 def register():
+    # TODO: account activation via email
     register_form = RegisterForm()
     if register_form.validate_on_submit():
         if User.query.filter_by(email=register_form.email.data).first():
