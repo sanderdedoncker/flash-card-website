@@ -11,20 +11,16 @@ bp = Blueprint(name="cards", import_name=__name__, template_folder="templates", 
 
 
 # # Views
-@login_required
 @bp.route("/", methods=["GET"])
+@login_required
 def cards():
     # TODO: Checking card content safety
-    all_user_cards_scores = db.session.query(Card, Score).\
-                            outerjoin(Score).\
-                            filter(Card.user_id == current_user.id).\
-                            filter((Score.user_id == current_user.id) | (Score.user_id == None)).\
-                            all()
+    all_user_cards_scores = current_user.get_cards_scores()
     return render_template("cards.html", cards_scores=all_user_cards_scores)
 
 
-@login_required
 @bp.route("/<int:card_id>", methods=["GET"])
+@login_required
 def card_detail(card_id):
     # TODO: Maybe do edit and delete directly in this page
     # TODO: Checking card content safety
@@ -39,8 +35,8 @@ def card_detail(card_id):
         return abort(404)
 
 
-@login_required
 @bp.route("/add", methods=["GET", "POST"])
+@login_required
 def add_card():
     add_card_form = AddCardForm()
     if add_card_form.validate_on_submit():
@@ -57,8 +53,8 @@ def add_card():
     return render_template("add_card.html", form=add_card_form)
 
 
-@login_required
 @bp.route("/<int:card_id>/edit", methods=["GET", "POST"])
+@login_required
 def edit_card(card_id):
     card = Card.query.get(card_id)
     if card:
@@ -74,8 +70,8 @@ def edit_card(card_id):
         return abort(404)
 
 
-@login_required
 @bp.route("/<int:card_id>/reset", methods=["GET", "POST"])
+@login_required
 def reset_card(card_id):
     card = Card.query.get(card_id)
     score = Score.query.filter_by(user_id=current_user.id, card_id=card.id).one_or_none()
@@ -93,8 +89,8 @@ def reset_card(card_id):
         return abort(404)
 
 
-@login_required
 @bp.route("/<int:card_id>/delete", methods=["GET", "POST"])
+@login_required
 def delete_card(card_id):
     # TODO: Make this nicer with a confirmation popup before accessing the link, instead of form there
     # TODO: Accept "DELETE" requests?

@@ -31,6 +31,15 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def get_cards_scores(self):
+        cards_scores = db.session.query(Card, Score). \
+            outerjoin(Score). \
+            filter(Card.user_id == self.id). \
+            filter((Score.user_id == self.id) | (Score.user_id == None)). \
+            all()
+        return cards_scores
+
+
 
 class Card(db.Model):
     """Card: contains data on the flash cards. For now, cards only support string content."""

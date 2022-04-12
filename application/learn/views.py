@@ -11,15 +11,11 @@ bp = Blueprint(name="learn", import_name=__name__, template_folder="templates", 
 
 
 # # Views
-@login_required
 @bp.route("/", methods=["GET"])
+@login_required
 def learn():
 
-    all_user_cards_scores = db.session.query(Card, Score). \
-        outerjoin(Score). \
-        filter(Card.user_id == current_user.id). \
-        filter((Score.user_id == current_user.id) | (Score.user_id == None)). \
-        all()
+    all_user_cards_scores = current_user.get_cards_scores()
 
     if not all_user_cards_scores:
         flash("You have no cards yet!")
@@ -41,8 +37,8 @@ def learn():
     return render_template("nothing_to_learn.html")
 
 
-@login_required
 @bp.route("/<int:card_id>/right", methods=["GET"])
+@login_required
 def right(card_id):
     user_card_score = Score.query.filter_by(user_id=current_user.id, card_id=card_id).one_or_none()
     if user_card_score:
@@ -52,8 +48,8 @@ def right(card_id):
     return redirect(url_for("learn.learn"))
 
 
-@login_required
 @bp.route("/<int:card_id>/wrong", methods=["GET"])
+@login_required
 def wrong(card_id):
     user_card_score = Score.query.filter_by(user_id=current_user.id, card_id=card_id).one_or_none()
     if user_card_score:
