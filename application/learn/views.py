@@ -15,7 +15,7 @@ bp = Blueprint(name="learn", import_name=__name__, template_folder="templates", 
 @login_required
 def learn():
 
-    all_user_cards_scores = current_user.get_cards_scores()
+    all_user_cards_scores = current_user.query_cards_scores().all()
 
     if not all_user_cards_scores:
         flash("You have no cards yet!")
