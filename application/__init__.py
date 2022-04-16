@@ -71,7 +71,6 @@ def create_app(test_config=None):
         from .user import views as user_views
         app.register_blueprint(user_views.bp)
 
-        # TODO: User profile pages
         # TODO: Card overview/collections
         # TODO: Public and private cards/collections
         # TODO: Admin pages

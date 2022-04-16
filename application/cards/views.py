@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, abort
+from flask import Blueprint, render_template, redirect, url_for, flash, abort, request
 from .forms import AddCardForm, EditCardForm, ResetCardForm, DeleteCardForm
 from flask_login import current_user, login_required
 from flask_paginate import Pagination, get_page_args
@@ -16,9 +16,25 @@ bp = Blueprint(name="cards", import_name=__name__, template_folder="templates", 
 @login_required
 def cards():
     # TODO: Checking card content
-    page, per_page, _ = get_page_args()
+    user_cards_scores = current_user.query_cards_scores()
 
-    user_cards_scores = current_user.query_cards_scores().paginate(page=page, per_page=per_page, error_out=False)
+    sort = request.args.get("sort")
+    order = request.args.get("order")
+    if sort == "added" and order == "up":
+        user_cards_scores = user_cards_scores.order_by(Card.added_on.asc())
+    if sort == "added" and order == "down":
+        user_cards_scores = user_cards_scores.order_by(Card.added_on.desc())
+    if sort == "level" and order == "up":
+        user_cards_scores = user_cards_scores.order_by(Score.score.asc())
+    if sort == "level" and order == "down":
+        user_cards_scores = user_cards_scores.order_by(Score.score.desc())
+    if sort == "seen" and order == "up":
+        user_cards_scores = user_cards_scores.order_by(Score.last_seen_on.asc().nulls_first())
+    if sort == "seen" and order == "down":
+        user_cards_scores = user_cards_scores.order_by(Score.last_seen_on.desc().nulls_last())
+
+    page, per_page, _ = get_page_args()
+    user_cards_scores = user_cards_scores.paginate(page=page, per_page=per_page, error_out=False)
     pagination = Pagination(page=page, per_page=per_page, total=user_cards_scores.total,
                             inner_window=2, outer_window=0)
 

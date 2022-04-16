@@ -12,10 +12,26 @@ Cards
 {% block app_content %}
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-md-2">
+        <div class="col-xs-6 col-md-2">
             <a href="{{ url_for('cards.add_card') }}" class="btn btn-primary">Add new card</a>
         </div>
-        <div class="col-xs-12 col-md-10 text-right">
+       <div class="col-xs-6 col-md-2 text-right">
+           <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                Sort cards
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="{{ url_for('cards.cards', sort='added', order='down')}}">Date added (newest first)</a></li>
+                <li><a href="{{ url_for('cards.cards', sort='added', order='up')}}">Date added (oldest first)</a></li>
+                <li><a href="{{ url_for('cards.cards', sort='level', order='up')}}">Level (lowest first)</a></li>
+                <li><a href="{{ url_for('cards.cards', sort='level', order='down')}}">Level (highest first)</a></li>
+                <li><a href="{{ url_for('cards.cards', sort='seen', order='down')}}">Date reviewed (newest first)</a></li>
+                <li><a href="{{ url_for('cards.cards', sort='seen', order='up')}}">Date reviewed (oldest first)</a></li>
+              </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-8 text-center">
             {{ pagination.links }}
         </div>
     </div>
@@ -59,7 +75,7 @@ Cards
         <div class="panel"></div>
     </div>
     <div class="row">
-        <div class="col-xs-12 text-right">
+        <div class="col-xs-12 text-center">
             {{ pagination.links }}
         </div>
     </div>
