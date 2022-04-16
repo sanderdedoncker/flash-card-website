@@ -9,6 +9,6 @@ bp = Blueprint(name="home", import_name=__name__, template_folder="templates", s
 
 
 # a simple page that says hello
-@bp.route("/", methods=["GET"])
+@bp.route("", methods=["GET"])
 def home():
     return render_template("index.html")

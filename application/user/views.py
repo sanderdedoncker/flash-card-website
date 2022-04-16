@@ -12,7 +12,7 @@ bp = Blueprint(name="user", import_name=__name__, template_folder="templates", s
 
 
 # # Views
-@bp.route("/", methods=["GET"])
+@bp.route("", methods=["GET"])
 @login_required
 def profile():
 

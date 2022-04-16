@@ -11,7 +11,7 @@ bp = Blueprint(name="learn", import_name=__name__, template_folder="templates", 
 
 
 # # Views
-@bp.route("/", methods=["GET"])
+@bp.route("", methods=["GET"])
 @login_required
 def learn():
 
