@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-Cards
+Card Detail
 {% endblock %}
 
 {% block app_content %}
@@ -46,6 +46,7 @@ Cards
                     </div>
                 </ul>
         </div>
+        <div class="panel"></div>
         <div class="row text-center">
             <div class="col-xs-4">
                 <a class="btn btn-warning" href="{{ url_for('cards.edit_card', card_id=card.id) }}">Edit</a>
