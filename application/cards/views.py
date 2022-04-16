@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from .forms import AddCardForm, EditCardForm, ResetCardForm, DeleteCardForm
 from flask_login import current_user, login_required
+from flask_paginate import Pagination, get_page_args
 from application.models import User, Card, Score
 from application import db, login
 from datetime import datetime
@@ -11,12 +12,17 @@ bp = Blueprint(name="cards", import_name=__name__, template_folder="templates", 
 
 
 # # Views
-@bp.route("/", methods=["GET"])
+@bp.route("", methods=["GET"])
 @login_required
 def cards():
-    # TODO: Checking card content safety
-    all_user_cards_scores = current_user.get_cards_scores()
-    return render_template("cards.html", cards_scores=all_user_cards_scores)
+    # TODO: Checking card content
+    page, per_page, _ = get_page_args()
+
+    user_cards_scores = current_user.query_cards_scores().paginate(page=page, per_page=per_page, error_out=False)
+    pagination = Pagination(page=page, per_page=per_page, total=user_cards_scores.total,
+                            inner_window=2, outer_window=0)
+
+    return render_template("cards.html", cards_scores=user_cards_scores.items, pagination=pagination)
 
 
 @bp.route("/<int:card_id>", methods=["GET"])

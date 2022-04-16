@@ -31,14 +31,12 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def get_cards_scores(self):
+    def query_cards_scores(self):
         cards_scores = db.session.query(Card, Score). \
             outerjoin(Score). \
             filter(Card.user_id == self.id). \
-            filter((Score.user_id == self.id) | (Score.user_id == None)). \
-            all()
+            filter((Score.user_id == self.id) | (Score.user_id == None))
         return cards_scores
-
 
 
 class Card(db.Model):

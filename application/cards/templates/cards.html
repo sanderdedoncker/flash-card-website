@@ -11,6 +11,14 @@ Cards
 
 {% block app_content %}
 <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-2">
+            <a href="{{ url_for('cards.add_card') }}" class="btn btn-primary">Add new card</a>
+        </div>
+        <div class="col-xs-12 col-md-10 text-right">
+            {{ pagination.links }}
+        </div>
+    </div>
 <!--    <ul class="list-group">-->
     {% for card, score in cards_scores %}
 <!--        <li class="list-group-item">-->
@@ -47,6 +55,13 @@ Cards
 <!--        </li>-->
         {% endfor %}
 <!--    </ul>-->
-    <a href="{{ url_for('cards.add_card') }}" class="btn btn-primary">Add new card</a>
+    <div class="row">
+        <div class="panel"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            {{ pagination.links }}
+        </div>
+    </div>
 </div>
 {% endblock %}

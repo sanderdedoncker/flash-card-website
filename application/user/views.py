@@ -16,7 +16,7 @@ bp = Blueprint(name="user", import_name=__name__, template_folder="templates", s
 @login_required
 def profile():
 
-    all_user_cards_scores = current_user.get_cards_scores()
+    all_user_cards_scores = current_user.query_cards_scores().all()
     unseen = 0
     score_stats = {}
     total_stat = {"reviewed": 0, "reviewable": 0}
