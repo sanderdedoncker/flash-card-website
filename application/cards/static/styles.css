@@ -11,6 +11,10 @@
   /*border: 1px solid #ddd;*/
 }
 
+.col-stacking {
+    margin-top: 10px;
+}
+
 .panel {
     margin: 20px 0 0 0;
 }

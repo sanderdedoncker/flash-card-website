@@ -18,6 +18,10 @@ def cards():
     # TODO: Checking card content
     user_cards_scores = current_user.query_cards_scores()
 
+    query = request.args.get("query")
+    if query:
+        user_cards_scores = user_cards_scores.filter(Card.front.contains(query) | Card.back.contains(query))
+
     sort = request.args.get("sort")
     order = request.args.get("order")
     if sort == "added" and order == "up":
@@ -38,7 +42,8 @@ def cards():
     pagination = Pagination(page=page, per_page=per_page, total=user_cards_scores.total,
                             inner_window=2, outer_window=0)
 
-    return render_template("cards.html", cards_scores=user_cards_scores.items, pagination=pagination)
+    return render_template("cards.html", cards_scores=user_cards_scores.items, pagination=pagination,
+                           query=query, sort=sort, order=order, per_page=per_page)
 
 
 @bp.route("/<int:card_id>", methods=["GET"])
