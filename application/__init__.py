@@ -19,10 +19,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
 
 
 db = SQLAlchemy()  # db as variable outside of the app -> makes it accessible anywhere before app creation
-# TODO: configure SQLAlchemy database
+migrate = Migrate()
 login = LoginManager()  # login as variable outside of app factory -> makes it accessible anywhere before app creation
 
 
@@ -41,6 +42,9 @@ def create_app(test_config=None):
 
     # Initialize SQLAlchemy database on the created app
     db.init_app(app)
+
+    # Initialize Flask-Migrate database migration tool on the created app and db
+    migrate.init_app(app, db)
 
     # Initialize Flask-Login login manager on the created app
     login.init_app(app)
