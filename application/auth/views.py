@@ -3,6 +3,7 @@ from .forms import LoginForm, RegisterForm
 from flask_login import current_user, login_user, logout_user, login_required
 from application.models import User
 from application import db, login
+from datetime import datetime
 
 
 # # Blueprint configuration
@@ -27,6 +28,7 @@ def register():
         new_user = User(
             username=register_form.username.data,
             email=register_form.email.data,
+            added_on=datetime.now()
         )
         new_user.set_password(register_form.password.data)
         db.session.add(new_user)

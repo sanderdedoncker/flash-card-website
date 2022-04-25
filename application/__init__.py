@@ -16,13 +16,25 @@ Sander Dedoncker, 2022
 from os import path
 
 from flask import Flask
+from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 
 
-db = SQLAlchemy()  # db as variable outside of the app -> makes it accessible anywhere before app creation
+# Constraint naming convention to ease migrations:
+# https://stackoverflow.com/questions/62640576/flask-migrate-valueerror-constraint-must-have-a-name
+# Attention: I added this later, so the SQLite constraints from before the first migration are still unnamed!
+# If you need those removed, see also the SO topic
+# db as variable outside of the app -> makes it accessible anywhere before app creation
+db = SQLAlchemy(metadata=MetaData(naming_convention={
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}))
 migrate = Migrate()
 login = LoginManager()  # login as variable outside of app factory -> makes it accessible anywhere before app creation
 
@@ -44,7 +56,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # Initialize Flask-Migrate database migration tool on the created app and db
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, render_as_batch=True)
 
     # Initialize Flask-Login login manager on the created app
     login.init_app(app)

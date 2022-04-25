@@ -4,7 +4,9 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timedelta
+import base64
+import os
 
 
 # # Models
@@ -12,10 +14,13 @@ class User(UserMixin, db.Model):
     """User: contains data on website users."""
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
+    added_on = db.Column(db.DateTime)
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(250), nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
+    token = db.Column(db.String(32), unique=True)
+    token_expiration = db.Column(db.DateTime)
 
     # User relates to Card via Score
     scores = relationship("Score", back_populates="user", cascade="delete, all")
@@ -37,6 +42,25 @@ class User(UserMixin, db.Model):
             filter(Card.user_id == self.id). \
             filter((Score.user_id == self.id) | (Score.user_id == None))
         return cards_scores
+
+    def get_token(self, expires_in=3600):
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        db.session.add(self)
+        return self.token
+
+    def revoke_token(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
+
+    @staticmethod
+    def check_token(token):
+        user = User.query.filter_by(token=token).first()
+        if user is None or user.token_expiration < datetime.utcnow():
+            return None
+        return user
 
 
 class Card(db.Model):
