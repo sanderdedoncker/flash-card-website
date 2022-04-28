@@ -87,6 +87,10 @@ def create_app(test_config=None):
         from .user import views as user_views
         app.register_blueprint(user_views.bp)
 
+        # Import and register api blueprint
+        from .api import bp as api_bp
+        app.register_blueprint(api_bp)
+
         # TODO: Card overview/collections
         # TODO: Public and private cards/collections
         # TODO: Admin pages
