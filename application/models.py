@@ -1,12 +1,12 @@
-from application import db
-
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
 import base64
 import os
+
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import relationship
+
+from application import db
 
 
 # # Models
@@ -36,20 +36,12 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def query_cards_scores(self):
-        cards_scores = db.session.query(Card, Score). \
-            outerjoin(Score). \
-            filter(Card.user_id == self.id). \
-            filter((Score.user_id == self.id) | (Score.user_id == None))
-        return cards_scores
-
     def get_token(self, expires_in=3600):
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token
         self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
         self.token_expiration = now + timedelta(seconds=expires_in)
-        db.session.add(self)
         return self.token
 
     def revoke_token(self):
@@ -62,6 +54,13 @@ class User(UserMixin, db.Model):
             return None
         return user
 
+    def query_cards_scores(self):
+        cards_scores = db.session.query(Card, Score). \
+            outerjoin(Score). \
+            filter(Card.user_id == self.id). \
+            filter((Score.user_id == self.id) | (Score.user_id == None))
+        return cards_scores
+
 
 class Card(db.Model):
     """Card: contains data on the flash cards. For now, cards only support string content."""
@@ -70,7 +69,7 @@ class Card(db.Model):
     __tablename__ = "cards"
     id = db.Column(db.Integer, primary_key=True)
     added_on = db.Column(db.DateTime, nullable=False, default=datetime.min)  # Default to earliest possible time.
-    private = db.Column(db.Boolean, nullable=False, default=False)  # Default to public card
+    private = db.Column(db.Boolean, nullable=False, default=True)  # Default to private card
     front = db.Column(db.Text, nullable=False)  # Text type has unlimited length
     back = db.Column(db.Text, nullable=False)
 
@@ -80,6 +79,21 @@ class Card(db.Model):
     # Card relates to User (many-to-one) who is creator
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     user = relationship("User", back_populates="cards")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "added_on": self.added_on.isoformat(),
+            "private": self.private,
+            "front": self.front,
+            "back": self.back,
+        }
+
+    def from_dict(self, data):
+        for field in ["front", "back", "private"]:
+            if field in data:
+                setattr(self, field, data[field])
 
 
 class Score(db.Model):
@@ -96,6 +110,15 @@ class Score(db.Model):
 
     card_id = db.Column(db.Integer, db.ForeignKey("cards.id"))
     card = relationship("Card", back_populates="scores")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "card_id": self.card_id,
+            "user_id": self.user_id,
+            "last_seen_on": self.last_seen_on.isoformat(),
+            "score": self.score,
+        }
 
 # TODO: Card collections?
 # TODO: Score history?
