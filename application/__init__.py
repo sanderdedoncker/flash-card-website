@@ -10,6 +10,9 @@ https://hackersandslackers.com/flask-blueprints/
 Database also linked following the "Application factory" pattern
 https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/
 
+For lots of general info and design guidelines, see M. Grinberg Flask Megatutorial
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+
 Sander Dedoncker, 2022
 """
 
@@ -91,10 +94,9 @@ def create_app(test_config=None):
         from .api import bp as api_bp
         app.register_blueprint(api_bp)
 
-        # TODO: Card overview/collections
+        # TODO: Card collections
         # TODO: Public and private cards/collections
         # TODO: Admin pages
-        # TODO: API
         # TODO: Nicer styling
 
         return app
