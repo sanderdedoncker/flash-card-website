@@ -29,9 +29,9 @@ def cards():
     if sort == "added" and order == "down":
         user_cards_scores = user_cards_scores.order_by(Card.added_on.desc())
     if sort == "level" and order == "up":
-        user_cards_scores = user_cards_scores.order_by(Score.score.asc())
+        user_cards_scores = user_cards_scores.order_by(Score.score.asc().nulls_first())
     if sort == "level" and order == "down":
-        user_cards_scores = user_cards_scores.order_by(Score.score.desc())
+        user_cards_scores = user_cards_scores.order_by(Score.score.desc().nulls_last())
     if sort == "seen" and order == "up":
         user_cards_scores = user_cards_scores.order_by(Score.last_seen_on.asc().nulls_first())
     if sort == "seen" and order == "down":

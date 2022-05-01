@@ -125,9 +125,9 @@ def get_cards():
     if sort == "added" and order == "down":
         cards_scores = cards_scores.order_by(Card.added_on.desc())
     if sort == "level" and order == "up":
-        cards_scores = cards_scores.order_by(Score.score.asc())
+        cards_scores = cards_scores.order_by(Score.score.asc().nulls_first())
     if sort == "level" and order == "down":
-        cards_scores = cards_scores.order_by(Score.score.desc())
+        cards_scores = cards_scores.order_by(Score.score.desc().nulls_last())
     if sort == "seen" and order == "up":
         cards_scores = cards_scores.order_by(Score.last_seen_on.asc().nulls_first())
     if sort == "seen" and order == "down":
@@ -174,6 +174,7 @@ def update_card(id):
 
 # Delete
 @bp.route('/cards/<int:id>', methods=['DELETE'])
+@token_auth.login_required
 def delete_card(id):
     user = token_auth.current_user()
     response_dict = delete_card_helper(user, {"id": id})
