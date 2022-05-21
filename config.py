@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, '.env'))
 
-# TODO: use config (sub)classing
 # App
 TESTING = False if environ.get('FLASK_ENV') == "production" else True
 EXPLAIN_TEMPLATE_LOADING = False

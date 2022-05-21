@@ -40,6 +40,7 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
 }))
 migrate = Migrate()
 login = LoginManager()  # login as variable outside of app factory -> makes it accessible anywhere before app creation
+bootstrap = Bootstrap()
 
 
 def create_app(test_config=None):
@@ -64,8 +65,8 @@ def create_app(test_config=None):
     # Initialize Flask-Login login manager on the created app
     login.init_app(app)
 
-    # Link the Flask-Bootstrap library to the created app
-    Bootstrap(app)
+    # Initialize Flask-Bootstrap instance to the created app
+    bootstrap.init_app(app)
 
     # Push the context for the app
     with app.app_context():
