@@ -1,4 +1,3 @@
-from flask import url_for
 
 
 def test_home_page_contents(client):
