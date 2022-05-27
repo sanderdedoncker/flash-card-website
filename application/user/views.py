@@ -1,11 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, abort
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user, login_required, logout_user
-from application.models import User, Card, Score
+
+from application import db
+from application.models import User
 from application.learn.rules import is_reviewable
 from .forms import EditUserForm, ResetPasswordForm, DeleteUserForm
-from application import db, login
-from datetime import datetime
-
 
 # # Blueprint configuration
 bp = Blueprint(name="user", import_name=__name__, template_folder="templates", static_folder="static", url_prefix="/user")
@@ -46,6 +45,9 @@ def profile():
 def edit_user():
     edit_user_form = EditUserForm(username=current_user.username, email=current_user.email)
     if edit_user_form.validate_on_submit():
+        if current_user.email != edit_user_form.email.data and User.query.filter_by(email=edit_user_form.email.data).first():
+            flash("This email address is already registered by another user.")
+            return redirect(url_for("user.edit_user"))
         current_user.username = edit_user_form.username.data
         current_user.email = edit_user_form.email.data
         db.session.commit()

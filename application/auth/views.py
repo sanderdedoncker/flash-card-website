@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
-from .forms import LoginForm, RegisterForm
-from flask_login import current_user, login_user, logout_user, login_required
-from application.models import User
-from application import db, login
 from datetime import datetime
+
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import current_user, login_user, logout_user, login_required
+
+from application import db, login
+from application.models import User
+from .forms import LoginForm, RegisterForm
 
 
 # # Blueprint configuration
@@ -40,7 +42,7 @@ def register():
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated:  # TODO: Password reset
+    if current_user.is_authenticated:
         flash("You are already logged in.")
         return redirect(url_for("home.home"))
     login_form = LoginForm()
