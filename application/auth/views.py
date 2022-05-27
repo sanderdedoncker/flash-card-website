@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 
 from application import db, login
@@ -16,6 +16,11 @@ bp = Blueprint(name="auth", import_name=__name__, template_folder="templates", s
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+@login.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('auth.login', next=request.path))
 
 
 # # Views
@@ -53,7 +58,7 @@ def login():
             return redirect(url_for("auth.login"))
         login_user(user)
         flash("Login successful!")
-        return redirect(url_for("home.home"))
+        return redirect(request.args.get("next", url_for("home.home")))
     return render_template("login.html", form=login_form)
 
 

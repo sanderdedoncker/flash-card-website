@@ -9,14 +9,14 @@ def test_profile(client, auth, user, admin):
     """
     GIVEN a Flask client with attached app and database
     WHEN user is not logged in
-    THEN check if you get unauthorized error
+    THEN check if you get unauthorized error or redirect
     WHEN user (with card and scores) logs in and visits profile page
     THEN check if it is rendered correctly
     WHEN admin (without card and scores) logs in and visits profile page
     THEN check if it is rendered correctly
     """
     response = client.get('/user')
-    assert response.status_code == 401
+    assert response.status_code in (401, 302)
 
     auth.login()
     response = client.get('/user')
@@ -43,7 +43,7 @@ def test_edit_user(client, app, auth, user, admin):
     """
     GIVEN a Flask client with attached app and database
     WHEN user edit link is opened
-    THEN check if you get unauthorized error
+    THEN check if you get unauthorized error or redirect
     WHEN user logs in and visits edit page
     THEN check if it is rendered correctly
     WHEN change to existing email
@@ -52,7 +52,7 @@ def test_edit_user(client, app, auth, user, admin):
     THEN check if change was successful, and if user in database
     """
     response = client.get('/user/edit')
-    assert response.status_code == 401
+    assert response.status_code in (401, 302)
 
     auth.login()
     response = client.get('/user/edit')
@@ -100,14 +100,14 @@ def test_reset_password(client, app, auth, user):
     """
     GIVEN a Flask client with attached app and database
     WHEN reset password link is opened
-    THEN check if you get unauthorized error
+    THEN check if you get unauthorized error or redirect
     WHEN user logs in and visits reset password page
     THEN check if it is rendered correctly
     WHEN change to valid new password
     THEN check if change was successful, and in database
     """
     response = client.get('/user/reset_password')
-    assert response.status_code == 401
+    assert response.status_code in (401, 302)
 
     auth.login()
     response = client.get('/user/reset_password')
@@ -150,7 +150,7 @@ def test_delete_user(client, app, auth, user):
     """
     GIVEN a Flask client with attached app and database
     WHEN delete user link is opened
-    THEN check if you get unauthorized error
+    THEN check if you get unauthorized error or redirect
     WHEN user logs in and visits delete user page
     THEN check if it is rendered correctly
     WHEN user is deleted
@@ -159,7 +159,7 @@ def test_delete_user(client, app, auth, user):
     THEN check if user was logged out
     """
     response = client.get('/user/delete')
-    assert response.status_code == 401
+    assert response.status_code in (401, 302)
 
     auth.login()
     response = client.get('/user/delete')
