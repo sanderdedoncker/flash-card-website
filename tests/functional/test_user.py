@@ -184,3 +184,20 @@ def test_delete_user(client, app, auth, user):
 
     response = auth.login()
     assert b"nvalid" in response.data
+
+
+def test_user_methods(client, auth):
+    """
+    GIVEN a Flask client, with logged-in user
+    WHEN non-get request is issued to user profile
+    THEN check that the methods are disallowed
+    """
+    auth.login()
+    response = client.post("/user")
+    assert response.status_code == 405
+    response = client.put("/user")
+    assert response.status_code == 405
+    response = client.patch("/user")
+    assert response.status_code == 405
+    response = client.delete("/user")
+    assert response.status_code == 405

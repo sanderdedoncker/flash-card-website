@@ -10,6 +10,7 @@ https://stackoverflow.com/questions/46646603/generate-urls-for-flask-test-client
 
 import pytest
 from datetime import datetime
+from requests.auth import _basic_auth_str
 
 from application import create_app, db
 from application.models import User, Card, Score
@@ -113,6 +114,18 @@ class AuthActions(object):
 
     def logout(self):
         return self._client.get('/auth/logout', follow_redirects=True)
+
+    def get_token(self, email='user@a.b', password='user'):  # credentials of the user fixture
+        return self._client.post('/api/tokens', headers={
+            "Authorization": _basic_auth_str(email, password),
+        })
+
+    def get_bearer_auth_header(self, email='user@a.b', password='user'): # credentials of the user fixture
+        token = self.get_token(email=email, password=password).json.get("token", "")
+        return {"Authorization": "Bearer " + token}
+
+    def revoke_token(self, email='user@a.b', password='user'):  # credentials of the user fixture
+        return self._client.delete('/api/tokens', headers=self.get_bearer_auth_header(email=email, password=password))
 
 
 @pytest.fixture
