@@ -20,7 +20,7 @@
         </p>
     </div>
        <div class="page-header">
-        <h2>How to use?</h2>
+        <h2>Getting started</h2>
     </div>
     <div>
         <p>Usage of the app is very simple:</p>
@@ -49,10 +49,29 @@
         </ol>
     </div>
     <div class="page-header">
+        <h2>API</h2>
+    </div>
+    <div>
+        <p>
+            Some things are just difficult to do via a graphical interface. For instance, adding and managing lots of
+            cards via web forms alone can end up very tedious very quickly. To make your life easier, the app has a
+            REST-based API handling just these tasks.
+        </p>
+        <p>
+            Every registered user can access the API to manage his or her own card collection. Authorization and
+            authentication are implemented via a simple time-limited token system. Simply make a POST request to the
+            tokens endpoint ({{ url_for('api.get_token') }}) using your email and password in a basic auth
+            header. All further requests to the API require you to include this bearer token in the headers.
+        </p>
+        <p>
+            The full API spec with usage examples is available <a href="{{ api_docs_url }}">here</a>.
+        </p>
+    </div>
+    <div class="page-header">
         <h2>Future developments</h2>
     </div>
     <div>
-        <p>The following features (a.o.) are being developed at the time of writing (01/05/2022)</p>
+        <p>The following features (a.o.) may be added in the future</p>
         <ul>
             <li>
                 Organizing cards into different themed collections.
@@ -67,12 +86,16 @@
                 Sharing cards across users.
             </li>
             <li>
-                Documentation, mainly of API usage.
-            </li>
-            <li>
                 <em>... Your suggestion here ...</em>
             </li>
         </ul>
     </div>
 </div>
+<section>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-center text-muted">&copy Sander Dedoncker, 2022</p>
+        </div>
+    </footer>
+</section>
 {% endblock %}
