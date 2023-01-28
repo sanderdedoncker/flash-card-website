@@ -56,9 +56,6 @@ The code comes with a suite of functional and unit tests implemented in Pytest. 
 4. Create a new database (you only need to do this once, the database will persist afterwards)
 
 ```shell
-> rmdir /S migrations
-> flask db init
-> flask db migrate
 > flask db upgrade
 ```
 
