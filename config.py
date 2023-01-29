@@ -12,9 +12,12 @@ EXPLAIN_TEMPLATE_LOADING = False
 SECRET_KEY = environ.get('SECRET_KEY')
 
 # Database
-SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL').replace(
-        'postgres://', 'postgresql://') \
-    if environ.get('FLASK_ENV') == "production" else environ.get('DEV_DATABASE_URI')
+SQLALCHEMY_DATABASE_URI = DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
+    dbuser=environ.get('DBUSER'),
+    dbpass=environ.get('DBPASS'),
+    dbhost=environ.get('DBHOST') + ".postgres.database.azure.com",
+    dbname=environ.get('DBNAME')
+) if environ.get('FLASK_ENV') == "production" else environ.get('DEV_DATABASE_URI')
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = False if environ.get('FLASK_ENV') == "production" else True
