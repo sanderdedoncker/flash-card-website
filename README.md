@@ -3,7 +3,9 @@
 
 Website to store, manage and learn personal flash card collections. 
 
-Feel free to try out the [live version](https://sade-flash-cards.herokuapp.com/)! (Deployed on Heroku as of 29/05/2022)
+Feel free to try out the [live version](https://sade-flash-cards.azurewebsites.net/)! 
+~~(Deployed on Heroku as of 29/05/2022)~~
+(Deployed on Microsoft Azure as of 29/01/2023)
 
 ## Main website features
 
