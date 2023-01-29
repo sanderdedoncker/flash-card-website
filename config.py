@@ -11,7 +11,7 @@ TESTING = False if environ.get('FLASK_ENV') == "production" else True
 EXPLAIN_TEMPLATE_LOADING = False
 SECRET_KEY = environ.get('SECRET_KEY')
 
-# Database
+# Database -- see azureproject/production.py at https://github.com/Azure-Samples/msdocs-flask-postgresql-sample-app
 SQLALCHEMY_DATABASE_URI = DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
     dbuser=environ.get('DBUSER'),
     dbpass=environ.get('DBPASS'),
